@@ -43,14 +43,16 @@ namespace sys::term
 
 		return true;
 	}
-	bool feed()
+	int getc()
 	{
 		int c = '\0';
-		if(read(STDIN_FILENO, &c, 1) < 0 && errno != EAGAIN && errno != EWOULDBLOCK)
-		{
-			perror("fgetc: failed\n");
-			exit(EXIT_FAILURE);
-		}
-		return c != 27;
+		if(read(STDIN_FILENO, &c, 1) == 1)
+			return c;
+
+		if(errno == EAGAIN && errno == EWOULDBLOCK)
+			return c;
+
+		perror("fgetc: failed\n");
+		exit(EXIT_FAILURE);
 	}
 };
