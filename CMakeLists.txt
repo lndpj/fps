@@ -1,7 +1,7 @@
 cmake_minimum_required( VERSION 3.50 )
 
 project( fps VERSION 0.1 LANGUAGES CXX)
-set(PROJECT_DESCRIPTION "C++ FPS counter")
+set(PROJECT_DESCRIPTION "C++ FPS timer library")
 
 if(NOT CMAKE_GENERATOR MATCHES "^Visual Studio")
 include(GNUInstallDirs)
