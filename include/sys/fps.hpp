@@ -54,7 +54,7 @@ namespace sys
 				fps.cnt++;
 			return true;
 		}
-		char* to_string()
+		const char* c_str()
 		{
 			snprintf(str, 64, "%s %8zu/%s", date.str, fps.cnt, fps.str);
 			return str;
