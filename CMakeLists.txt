@@ -123,17 +123,28 @@ else (CMAKE_CXX_COMPILER_FRONTEND_VARIANT STREQUAL "MSVC")
 	add_link_options(/INCREMENTAL:NO)
 endif()
 
+
+cmake_policy(SET CMP0072 NEW)   #OpenGL_GL_PREFERENCE to GLVND
+
+find_package(glfw3 REQUIRED)
+find_package(OpenGL REQUIRED)
+find_package(GLUT REQUIRED)
 include_directories( ${PROJECT_NAME} INTERFACE
         PUBLIC_HEADER $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
 
-add_executable( ttyfps ${PROJECT_SOURCE_DIR}/src/ttyfps.cpp )
 add_library(${PROJECT_NAME} INTERFACE)
+add_executable( ttyfps ${PROJECT_SOURCE_DIR}/src/ttyfps.cpp )
 target_include_directories( ttyfps INTERFACE
         PUBLIC_HEADER $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
-
+add_executable( glfps ${PROJECT_SOURCE_DIR}/src/glfps.cpp )
+target_include_directories( glfps INTERFACE
+        PUBLIC_HEADER $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
+        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+)
+target_link_libraries( glfps PUBLIC glfw GLU glut)
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/sys DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT headers)
 

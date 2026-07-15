@@ -7,6 +7,6 @@ int main(int argc, char** argv)
 
 	while(sys::term::getc() != 27 && sys::timer.step())
 		printf("\r%s",sys::timer.c_str());
-
+	puts("");
 	exit(EXIT_SUCCESS);
 }

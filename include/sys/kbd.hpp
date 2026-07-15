@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cerrno>
 #include <fcntl.h>
 #include <sys/param.h>
 #include <unistd.h>
@@ -16,7 +17,6 @@ namespace sys::term
 		info.c_lflag |= ICANON;
 		info.c_lflag |= ECHO;
 		tcsetattr(STDIN_FILENO, TCSANOW, &info);
-		puts("");
 	}
 	bool init()
 	{
