@@ -59,5 +59,17 @@ namespace sys
 			snprintf(str, 64, "%s %8zu/%s", date.str, fps.cnt, fps.str);
 			return str;
 		}
+		constexpr inline void sys::timer.draw(const GLfloat col[4], const GLsizei pos[2])
+		{
+			glMatrixMode(GL_PROJECTION);
+			glPushMatrix();
+			glLoadIdentity();
+			gluOrtho2D(0,sys::vid::w,0,sys::vid::h);
+			glColor4fv(col);
+			glRasterPos2iv(pos);
+			glutBitmapString(GLUT_BITMAP_TIMES_ROMAN_10,(const unsigned char*)sys::timer.c_str());
+			glPopMatrix();
+			glMatrixMode(GL_MODELVIEW);
+		}
 	} timer;
 };
