@@ -50,7 +50,7 @@ namespace sys::term
 		if(read(STDIN_FILENO, &c, 1) == 1)
 			return c;
 
-		if(errno == EAGAIN && errno == EWOULDBLOCK)
+		if(errno == EAGAIN || errno == EWOULDBLOCK)
 			return c;
 
 		perror("fgetc: failed\n");
