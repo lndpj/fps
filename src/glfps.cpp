@@ -21,12 +21,44 @@
 #include <sys/fps.hpp>
 #include <sys/vid.hpp>
 
+inline static void error(int error, const char* description);
+inline static void size(vid::win::native window, int width, int height);
+inline static void key(vid::win::native window, int key, int scancode, int action, int mods);
+
+inline static void init_opengl(void);
+inline static void draw_quad(void);
+
+int main(int argc, char* argv[])
+{
+	glutInit(&argc,argv);
+
+	if(!vid::init(error)) exit(EXIT_FAILURE);
+	if(!vid::win.open(800, 600, size, key, "FPS timer"))
+	{
+        	vid::halt();
+        	exit(EXIT_FAILURE);
+    	}
+    	init_opengl();
+
+	while (vid::win.swap() && sys::timer.step())
+	{
+		vid::win.clear();
+
+		draw_quad();
+
+		vid::fnt.draw(sys::timer.c_str());
+	}
+
+	glfwTerminate();
+	exit(EXIT_SUCCESS);
+}
+
 static void error(int error, const char* description)
 {
     fprintf(stderr, "Error: %s\n", description);
 }
 
-static void size(vid::win::native window, int width, int height)
+inline static void size(vid::win::native window, int width, int height)
 {
 	if (width > 0 && height > 0)
 	{
@@ -38,7 +70,7 @@ static void size(vid::win::native window, int width, int height)
 	}
 }
 
-static void key(vid::win::native window, int key, int scancode, int action, int mods)
+inline static void key(vid::win::native window, int key, int scancode, int action, int mods)
 {
 	if(action != GLFW_PRESS)
 		return;
@@ -52,7 +84,9 @@ static void key(vid::win::native window, int key, int scancode, int action, int 
 			break;
 	}
 }
-inline void init_opengl(void)
+
+
+inline void init_opengl()
 {
     glShadeModel(GL_SMOOTH);
     glEnable(GL_DEPTH_TEST);
@@ -63,8 +97,7 @@ inline void init_opengl(void)
                  vid::win.col.back[3]);
     vid::fnt.col = {0.0f,1.0f,0.0f,1.0f};
 }
-
-inline void draw_quad(void)
+inline void draw_quad()
 {
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
@@ -86,26 +119,3 @@ inline void draw_quad(void)
 
 		glPopMatrix();
 }
-int main(int argc, char* argv[])
-{
-	glutInit(&argc,argv);
-
-	if(!sys::term::init() || !vid::init(error)) exit(EXIT_FAILURE);
-	if(!vid::win.open(800, 600, size, key, "FPS timer"))
-	{
-        	vid::halt();
-        	exit(EXIT_FAILURE);
-    	}
-    	init_opengl();
-
-	while (sys::term::getc() != 27 && vid::win.swap() && sys::timer.step())
-	{
-		vid::win.clear();
-		draw_quad();
-		vid::fnt.draw(sys::timer.c_str());
-	}
-
-	glfwTerminate();
-	exit(EXIT_SUCCESS);
-}
-
