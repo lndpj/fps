@@ -9,7 +9,7 @@ include(FindPkgConfig)
 endif()
 
 set(CMAKE_CXX_STANDARD 23)
-set(CMAKE_CXX_STANDARD_REQUIRED OFF)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS ON)
 
 if( NOT CMAKE_BUILD_TYPE )
@@ -44,7 +44,7 @@ if (CMAKE_CXX_COMPILER_FRONTEND_VARIANT MATCHES "GNU|AppleClang")
 			include(CheckCSourceCompiles)
 
 			set(CMAKE_REQUIRED_FLAGS "-maltivec")
-			check_c_source_compiles("#include <altivec.h> int main() { vector int v = (vector int){0}; return 0; }" HAVE_ALTIVEC)
+			check_cxx_source_compiles("#include <altivec.h> int main() { vector int v = (vector int){0}; return 0; }" HAVE_ALTIVEC)
 
 			if(HAVE_ALTIVEC)
 				add_compile_options(-maltivec)
@@ -56,7 +56,6 @@ if (CMAKE_CXX_COMPILER_FRONTEND_VARIANT MATCHES "GNU|AppleClang")
 	if(NOT CMAKE_CXX_COMPILER_FRONTEND_VARIANT MATCHES "AppleClang")
 		add_compile_options(-fopenmp-simd)
 	endif()
-	add_compile_options(-fno-asynchronous-unwind-tables)
 	if (CMAKE_BUILD_TYPE MATCHES Debug)
 		add_compile_options(-g)
 	else()
@@ -80,7 +79,7 @@ if (CMAKE_CXX_COMPILER_FRONTEND_VARIANT MATCHES "GNU|AppleClang")
 	add_compile_options(-Wno-unused-parameter)
 	add_compile_options(-Wno-missing-field-initializers)
 	add_compile_options(-Wunreachable-code)		# Warn about unreachable code paths
-	add_compile_options(-fpermissive)
+	add_compile_options(-fno-asynchronous-unwind-tables)
 	add_compile_options(-ffunction-sections)	# Put each function in its own section
 	add_compile_options(-fdata-sections)		# Put each variable in its own section
 	if (CMAKE_BUILD_TYPE MATCHES ReleaseStrip)
