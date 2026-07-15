@@ -11,7 +11,7 @@ namespace sys::term
 	{
 		struct termios info;
 		int flags = fcntl(STDIN_FILENO,F_GETFL,0);
-		fcntl(STDIN_FILENO, F_SETFL,flags | ~O_NONBLOCK);
+		fcntl(STDIN_FILENO, F_SETFL,flags & ~O_NONBLOCK);
 		tcgetattr(STDIN_FILENO, &info);
 		info.c_lflag |= ICANON;
 		info.c_lflag |= ECHO;
