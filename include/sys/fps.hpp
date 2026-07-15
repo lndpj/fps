@@ -6,6 +6,10 @@
 #include <chrono>
 #include <cstring>
 
+#ifdef HAVE_FREEGLUT
+#include <GL/freeglut.h>
+#endif
+
 namespace sys
 {
 	struct timer	
@@ -59,17 +63,19 @@ namespace sys
 			snprintf(str, 64, "%s %8zu/%s", date.str, fps.cnt, fps.str);
 			return str;
 		}
-		constexpr inline void sys::timer.draw(const GLfloat col[4], const GLsizei pos[2])
+		#ifdef HAVE_FREEGLUT
+		inline void draw(const GLfloat col[4], const GLsizei pos[2], const GLsizei dim[2])
 		{
 			glMatrixMode(GL_PROJECTION);
 			glPushMatrix();
 			glLoadIdentity();
-			gluOrtho2D(0,sys::vid::w,0,sys::vid::h);
+			gluOrtho2D(0,dim[0],0,dim[1]);
 			glColor4fv(col);
 			glRasterPos2iv(pos);
-			glutBitmapString(GLUT_BITMAP_TIMES_ROMAN_10,(const unsigned char*)sys::timer.c_str());
+			glutBitmapString(GLUT_BITMAP_TIMES_ROMAN_10,(const unsigned char*)c_str());
 			glPopMatrix();
 			glMatrixMode(GL_MODELVIEW);
 		}
+		#endif
 	} timer;
 };
