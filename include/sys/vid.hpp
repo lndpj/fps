@@ -5,8 +5,7 @@
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 #include <GL/glu.h>
-//#include <GL/quesoglc.h>
-#include <GL/freeglut.h>
+#include <GL/glc.h>
 
 template<size_t N>
 using i32 = std::array<GLsizei,N>;
@@ -83,8 +82,20 @@ namespace vid
 	{
 		i32<2> pos;
 		f32<4> col;
-		using native = void*;
-		native font = GLUT_BITMAP_TIMES_ROMAN_10;
+		using native = int;
+		native font = 1;
+		bool init()
+		{
+			glcContext(glcGenContext());
+			glcScale(10, 10);
+#ifdef __WIN32__
+			glcNewFontFromFamily(1, "Times New Roman");
+#else
+			glcNewFontFromFamily(1, "Times");
+#endif
+			glcFont(font);
+			return true;
+		}
 		inline void draw(const char* str)
 		{
 			glMatrixMode(GL_PROJECTION);
@@ -93,7 +104,7 @@ namespace vid
 			gluOrtho2D(0,vid::win.ext.w,0,vid::win.ext.h);
 			glColor4fv(&col[0]);
 			glRasterPos2iv(&pos[0]);
-			glutBitmapString(font,(const unsigned char*)str);
+			glcRenderString(str);
 			glPopMatrix();
 			glMatrixMode(GL_MODELVIEW);
 		}

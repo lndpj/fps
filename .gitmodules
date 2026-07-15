@@ -1,0 +1,3 @@
+[submodule "lib/quesoglc-cmake"]
+	path = lib/quesoglc-cmake
+	url = https://git.code.sf.net/u/jdaniel/quesoglc-cmake

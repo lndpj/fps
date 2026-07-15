@@ -30,10 +30,8 @@ inline static void draw_quad(void);
 
 int main(int argc, char* argv[])
 {
-	glutInit(&argc,argv);
-
 	if(!vid::init(error)) exit(EXIT_FAILURE);
-	if(!vid::win.open(800, 600, size, key, "FPS timer"))
+	if(!vid::win.open(800, 600, size, key, "FPS timer") || !vid::fnt.init())
 	{
         	vid::halt();
         	exit(EXIT_FAILURE);

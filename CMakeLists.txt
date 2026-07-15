@@ -128,7 +128,8 @@ cmake_policy(SET CMP0072 NEW)   #OpenGL_GL_PREFERENCE to GLVND
 
 find_package(glfw3 REQUIRED)
 find_package(OpenGL REQUIRED)
-find_package(GLUT REQUIRED)
+
+add_subdirectory(lib/quesoglc-cmake)
 
 include_directories( ${PROJECT_NAME} INTERFACE
         PUBLIC_HEADER $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
@@ -146,6 +147,6 @@ target_include_directories( glfps INTERFACE
         PUBLIC_HEADER $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
-target_link_libraries( glfps PUBLIC glfw GLU glut)
+target_link_libraries( glfps PUBLIC glfw GLU GLC freetype fontconfig sqlite3 fribidi GLX)
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/sys DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT headers)
 
