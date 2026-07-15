@@ -129,6 +129,7 @@ cmake_policy(SET CMP0072 NEW)   #OpenGL_GL_PREFERENCE to GLVND
 find_package(glfw3 REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(GLUT REQUIRED)
+
 include_directories( ${PROJECT_NAME} INTERFACE
         PUBLIC_HEADER $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
